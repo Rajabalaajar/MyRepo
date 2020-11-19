@@ -1,0 +1,35 @@
+﻿@model FileUpload
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+
+
+</div>
+<form enctype="multipart/form-data" asp-Action="Submit" asp-Controller="Home" method="post">
+    <div>
+        <table>
+            <tr>
+                <td>
+                    <label>Please select a file:</label>
+                </td>
+                <td>
+                    <input asp-for="File" id="FileUploadId" />
+                </td>
+            </tr>
+            <tr>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" name="Upload" />
+                </td>
+                <td>
+                </td>
+            </tr>
+        </table>
+
+
+    </div>
+</form>
