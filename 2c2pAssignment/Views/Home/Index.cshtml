@@ -8,7 +8,7 @@
 
 
 </div>
-<form enctype="multipart/form-data" asp-Action="Submit" asp-Controller="Home" method="post">
+<form enctype="multipart/form-data" asp-Action="Index" asp-Controller="Home" method="post">
     <div>
         <table>
             <tr>
@@ -17,6 +17,7 @@
                 </td>
                 <td>
                     <input asp-for="File" id="FileUploadId" />
+                    <span asp-validation-for="File" class="text-danger"></span>
                 </td>
             </tr>
             <tr>

@@ -7,7 +7,7 @@ namespace _2c2pAssignment.Interface
 {
     public interface IFileType
     {
-       
+        string ValidateData();
         bool SaveData();
     }
 }

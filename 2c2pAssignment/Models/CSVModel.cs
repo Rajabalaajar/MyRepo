@@ -1,4 +1,5 @@
 ﻿using _2c2pAssignment.Enum;
+using _2c2pAssignment.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,35 +7,33 @@ using System.Threading.Tasks;
 
 namespace _2c2pAssignment.Models
 {
-    public class CSVModel
+    public class CSVModel : FileModel
     {
-        public string TransactionId { get; set; }
-        public string Amount { get; set; }
-        public string CurrenctCode { get; set; }
-        public string TransactionDate { get; set; }
-        public CSVChoice Choice { get; set; }
-
-        public string ChoiceStr
+        public CSVChoice Choice
         {
-            get
+            set
             {
-                if (Choice == CSVChoice.Approved)
+                if (value == CSVChoice.Approved)
                 {
-                    return "Approved";
+                    Status = "Approved";
                 }
-                else if (Choice == CSVChoice.Failed)
+                else if (value == CSVChoice.Failed)
                 {
-                    return "Failed";
+                    Status = "Failed";
                 }
-                else if (Choice == CSVChoice.Finished)
+                else if (value == CSVChoice.Finished)
                 {
-                    return "Finished";
+                    Status = "Finihsed";
+
                 }
                 else
-                    return string.Empty;
-
+                    Status = "";
             }
-            set { }
         }
+        public string ChoiceStr
+        {
+            get { return Status; }
+        }
+
     }
 }

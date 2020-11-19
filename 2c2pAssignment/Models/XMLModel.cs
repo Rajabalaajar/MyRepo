@@ -1,4 +1,5 @@
 ﻿using _2c2pAssignment.Enum;
+using _2c2pAssignment.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,34 +7,32 @@ using System.Threading.Tasks;
 
 namespace _2c2pAssignment.Models
 {
-    public class XMLModel
+    public class XMLModel : FileModel
     {
-        public string TransactionId { get; set; }
-        public string Amount { get; set; }
-        public string CurrenctCode { get; set; }
-        public string TransactionDate { get; set; }
-        public XMLChoice Choice { get; set; }
-        public string ChoiceStr
+        public XMLChoice Choice
         {
-            get
+            set
             {
-                if (Choice == XMLChoice.Approved)
+                if (value == XMLChoice.Approved)
                 {
-                    return "Approved";
+                    Status = "Approved";
                 }
-                else if (Choice == XMLChoice.Done)
+                else if (value == XMLChoice.Done)
                 {
-                    return "Done";
+                    Status = "Done";
                 }
-                else if (Choice == XMLChoice.Rejected)
+                else if (value == XMLChoice.Rejected)
                 {
-                    return "Rejected";
+                    Status = "Rejected";
+
                 }
                 else
-                    return string.Empty;
-
+                    Status = "";
             }
-            set { }
+        }
+        public string ChoiceStr
+        {
+            get { return Status; }
         }
     }
 }

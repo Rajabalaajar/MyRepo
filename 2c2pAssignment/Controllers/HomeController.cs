@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using _2c2pAssignment.Models;
+using System.IO;
+using _2c2pAssignment.Enum;
 
 namespace _2c2pAssignment.Controllers
 {
@@ -15,14 +17,30 @@ namespace _2c2pAssignment.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Submit(FileUpload File)
+        public IActionResult Index(FileUpload File)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-
+                    if (File != null && File.File != null)
+                    {
+                        string FType = Path.GetExtension(File.File.FileName);
+                        if (FType == Constants.CSV)
+                        {
+                            BaseFile baseFile = new CSVFile();
+                            baseFile._Stream = File.File;
+                            baseFile.SaveData();
+                        }
+                        else if (FType == Constants.XML)
+                        {
+                            BaseFile baseFile = new XMLFile();
+                            baseFile._Stream = File.File;
+                            baseFile.SaveData();
+                        }
+                    }
                 }
+                
             }
             catch (Exception ex)
             {
