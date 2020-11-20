@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using _2c2pAssignment.Models;
 using System.IO;
 using _2c2pAssignment.Enum;
+using _2c2pAssignment.Logger;
 
 namespace _2c2pAssignment.Controllers
 {
@@ -40,7 +41,7 @@ namespace _2c2pAssignment.Controllers
                         }
                     }
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -51,7 +52,39 @@ namespace _2c2pAssignment.Controllers
 
         public IActionResult DataView()
         {
-            return View();
+            DataViewModel model = new DataViewModel();
+            try
+            {
+
+                model.currencyFilter = new CurrencyFilter();
+                model.dateFilter = new DateFilter();
+                model.statusFilter = new StatusFilter();
+                model.currencyFilter.Currencies = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>()
+            {
+                new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem(){Text="--Select--",Value="--Select--" },
+                new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem(){Text="USD",Value="USD" }
+            };
+                model.statusFilter.StatusList = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>()
+            {
+                    new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem(){Text="--Select--",Value="--Select--" },
+                new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem(){ Text="Approved",Value="A" },
+                new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem(){ Text="Rejected",Value="R" },
+                new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem(){ Text="Done",Value="D" },
+
+            };
+            }
+            catch (Exception ex)
+            {
+                AppLogger.Log(ex);
+            }
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult DataView(DataViewModel model)
+        {
+
+
+            return View(model);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\raja.p\\source\\repos\\2c2pAssignment\\2c2pAssignment\\2c2pAssignment.csproj": {}
+    "C:\\Users\\raja.p\\Documents\\GitHub\\MyRepo\\2c2pAssignment\\2c2pAssignment.csproj": {}
   },
   "projects": {
-    "C:\\Users\\raja.p\\source\\repos\\2c2pAssignment\\2c2pAssignment\\2c2pAssignment.csproj": {
+    "C:\\Users\\raja.p\\Documents\\GitHub\\MyRepo\\2c2pAssignment\\2c2pAssignment.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\raja.p\\source\\repos\\2c2pAssignment\\2c2pAssignment\\2c2pAssignment.csproj",
+        "projectUniqueName": "C:\\Users\\raja.p\\Documents\\GitHub\\MyRepo\\2c2pAssignment\\2c2pAssignment.csproj",
         "projectName": "2c2pAssignment",
-        "projectPath": "C:\\Users\\raja.p\\source\\repos\\2c2pAssignment\\2c2pAssignment\\2c2pAssignment.csproj",
+        "projectPath": "C:\\Users\\raja.p\\Documents\\GitHub\\MyRepo\\2c2pAssignment\\2c2pAssignment.csproj",
         "packagesPath": "C:\\Users\\raja.p\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\raja.p\\source\\repos\\2c2pAssignment\\2c2pAssignment\\obj\\",
+        "outputPath": "C:\\Users\\raja.p\\Documents\\GitHub\\MyRepo\\2c2pAssignment\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -41,6 +41,10 @@
       "frameworks": {
         "netcoreapp2.2": {
           "dependencies": {
+            "CsvHelper": {
+              "target": "Package",
+              "version": "[16.0.0, )"
+            },
             "Microsoft.AspNetCore.App": {
               "suppressParent": "All",
               "target": "Package",
