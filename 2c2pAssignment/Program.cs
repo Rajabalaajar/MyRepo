@@ -15,7 +15,7 @@ namespace _2c2pAssignment
     {
         public static void Main(string[] args)
         {
-            AppLogger.InitilizeLogger();
+           
             CreateWebHostBuilder(args).Build().Run();
            
         }

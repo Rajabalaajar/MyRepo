@@ -8,6 +8,7 @@ using _2c2pAssignment.Models;
 using System.IO;
 using _2c2pAssignment.Enum;
 using _2c2pAssignment.Logger;
+using _2c2pAssignment.DataAccess;
 
 namespace _2c2pAssignment.Controllers
 {
@@ -31,13 +32,23 @@ namespace _2c2pAssignment.Controllers
                         {
                             BaseFile baseFile = new CSVFile();
                             baseFile._Stream = File.File;
-                            baseFile.SaveData();
+                            string ValidationMessage = baseFile.ValidateData();
+                            if (!string.IsNullOrEmpty(ValidationMessage))
+                                return BadRequest(ValidationMessage);
+                            ViewData["Uploaded"] = baseFile.SaveData();
                         }
                         else if (FType == Constants.XML)
                         {
                             BaseFile baseFile = new XMLFile();
                             baseFile._Stream = File.File;
-                            baseFile.SaveData();
+                            string ValidationMessage = baseFile.ValidateData();
+                            if (!string.IsNullOrEmpty(ValidationMessage))
+                                return BadRequest(ValidationMessage);
+                            ViewData["Uploaded"] = baseFile.SaveData();
+                        }
+                        else
+                        {
+                            return Json("Unknown file format");
                         }
                     }
                 }
@@ -55,23 +66,7 @@ namespace _2c2pAssignment.Controllers
             DataViewModel model = new DataViewModel();
             try
             {
-
-                model.currencyFilter = new CurrencyFilter();
-                model.dateFilter = new DateFilter();
-                model.statusFilter = new StatusFilter();
-                model.currencyFilter.Currencies = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>()
-            {
-                new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem(){Text="--Select--",Value="--Select--" },
-                new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem(){Text="USD",Value="USD" }
-            };
-                model.statusFilter.StatusList = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>()
-            {
-                    new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem(){Text="--Select--",Value="--Select--" },
-                new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem(){ Text="Approved",Value="A" },
-                new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem(){ Text="Rejected",Value="R" },
-                new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem(){ Text="Done",Value="D" },
-
-            };
+                model = DBAccess.GetData(null);
             }
             catch (Exception ex)
             {
@@ -82,11 +77,25 @@ namespace _2c2pAssignment.Controllers
         [HttpPost]
         public IActionResult DataView(DataViewModel model)
         {
-
-
-            return View(model);
+            DataViewModel m = new DataViewModel();
+            m = DBAccess.GetData(model);
+            if (m != null)
+            {
+                var data = m.currencyFilter.Currencies.Where(x => x.Text == model.currencyFilter.Currency).FirstOrDefault();
+                data.Selected = true;
+                m.statusFilter.StatusList.Where(x => x.Text == model.statusFilter.Status).FirstOrDefault().Selected = true;
+                m.dateFilter.StartDate = model.dateFilter.StartDate;
+                m.dateFilter.EndDate = model.dateFilter.EndDate;
+            }
+            return View(m);
         }
+        public IActionResult JSONView()
+        {
+            DataViewModel m = new DataViewModel();
+            m = DBAccess.GetData(null);
 
+            return Ok(Json(m.outputModel).Value);
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

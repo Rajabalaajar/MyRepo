@@ -29,6 +29,20 @@
                 <td>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    @if (ViewData["Uploaded"] != null && Convert.ToBoolean(ViewData["Uploaded"]) == true)
+                    {
+                        <span id="SuccessMessage" style="color:green">File Uploaded Successfully!!!</span>
+                    }
+                    else if (ViewData["Uploaded"] != null && Convert.ToBoolean(ViewData["Uploaded"]) == false)
+                    {
+                        <span id="SuccessMessage" style="color:red">Error occurred while Uploading the file</span>
+                    }
+                </td>
+                <td>
+                </td>
+            </tr>
         </table>
 
 

@@ -10,22 +10,25 @@ using System.Xml.Serialization;
 using _2c2pAssignment.DataAccess;
 using _2c2pAssignment.Extension;
 using System.Data;
+using System.Reflection;
 
 namespace _2c2pAssignment.Models
 {
     public class XMLFile : BaseFile
     {
-
+       
         public override bool SaveData()
         {
             try
             {
                 var dataList = ReadData();
-                DBAccess.BulkInsert<FileModel>(dataList);
+                var Map = Helper.GetPropColMapping<FileModel>();
+                DBAccess.BulkInsert<FileModel>(dataList, Map);
             }
             catch (Exception ex)
             {
-                throw ex;
+                AppLogger.Log(ex);
+                return false;
             }
             return true;
 

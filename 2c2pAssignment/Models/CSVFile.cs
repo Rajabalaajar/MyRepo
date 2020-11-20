@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using _2c2pAssignment.Logger;
 using CsvHelper.Configuration;
 using System.Globalization;
+using _2c2pAssignment.Extension;
+using _2c2pAssignment.DataAccess;
 
 namespace _2c2pAssignment.Models
 {
@@ -19,11 +21,13 @@ namespace _2c2pAssignment.Models
         {
             try
             {
-
+                var dataList = ReadData(out string Message);
+                var Map = Helper.GetPropColMapping<FileModel>();
+                DBAccess.BulkInsert<FileModel>(dataList, Map);
             }
             catch (Exception ex)
             {
-
+                AppLogger.Log(ex);
             }
             return true;
         }
@@ -40,11 +44,7 @@ namespace _2c2pAssignment.Models
                 foreach (FileModel t in result)
                 {
                     RowNumber++;
-                    t.TransactionId = t.TransactionId.Replace("\"", "").TrimEnd().TrimStart();
-                    t.Amount = t.Amount.Replace("\"", "").TrimEnd().TrimStart();
-                    t.CurrencyCode = t.CurrencyCode.Replace("\"", "").TrimEnd().TrimStart();
-                    t.Status = t.Status.Replace("\"", "").TrimEnd().TrimStart();
-                    t.TransactionDate = t.TransactionDate.Replace("\"", "").TrimEnd().TrimStart();
+                   
                     if (string.IsNullOrEmpty(t.TransactionId))
                     {
                         Message = "The property '" + nameof(t.TransactionId) + "' is empty or null in the given input file";
@@ -142,6 +142,14 @@ namespace _2c2pAssignment.Models
                 var result = csvReader.GetRecords<FileModel>().ToList();
                 Message = msg;
                 lst = result;
+                foreach (var t in lst)
+                {
+                    t.TransactionId = t.TransactionId.Replace("\"", "").TrimEnd().TrimStart();
+                    t.Amount = t.Amount.Replace("\"", "").TrimEnd().TrimStart();
+                    t.CurrencyCode = t.CurrencyCode.Replace("\"", "").TrimEnd().TrimStart();
+                    t.Status = t.Status.Replace("\"", "").TrimEnd().TrimStart();
+                    t.TransactionDate = t.TransactionDate.Replace("\"", "").TrimEnd().TrimStart();
+                }
             }
 
             catch (InvalidDataException ex)

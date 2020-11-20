@@ -11,7 +11,7 @@ namespace _2c2pAssignment.Models
         public DateFilter dateFilter { get; set; }
         public CurrencyFilter currencyFilter { get; set; }
         public StatusFilter statusFilter { get; set; }
-        public List<StatusFilter> statusFilters { get; set; }
+        public ResultFormat resultFormat { get; set; }
         public List<OutputModel> outputModel { get; set; }
 
     }
@@ -42,5 +42,12 @@ namespace _2c2pAssignment.Models
 
         public string SelectedStatus { get; set; }
         public List<SelectListItem> StatusList { get; set; }
+    }
+    public class ResultFormat
+    {
+        public string Result { get; set; }
+        public string SelectedResult { get; set; }
+        public List<SelectListItem> ResultList { get; set; }
+
     }
 }

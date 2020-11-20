@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using _2c2pAssignment.DataAccess;
+using _2c2pAssignment.Logger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -17,6 +19,10 @@ namespace _2c2pAssignment
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            AppLogger.InitilizeLogger();
+            var res = Configuration.GetConnectionString("myDb1");
+            DBAccess.InitializeDBSetting(res);
+
         }
 
         public IConfiguration Configuration { get; }

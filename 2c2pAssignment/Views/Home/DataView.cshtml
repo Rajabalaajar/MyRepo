@@ -24,7 +24,6 @@
                             <label>End Date:</label>
                             <input type="date" asp-for="dateFilter.EndDate" />
                         </div>
-
                         <div class="nav-item PaddingCustom">
                             <input type="submit" name="Filter" value="Filter" />
                         </div>
@@ -37,19 +36,19 @@
         <table border="1">
             <thead>
                 <tr>
-                    <td class="tbl-Td-Width">
-                        Transaction Id
-                    </td>
-                    <td class="tbl-Td-Width">
-                        Amount
-                    </td>
-                    <td class="tbl-Td-Width">
-                        Currency
-                    </td>
-                    <td class="tbl-Td-Width">
-                        Status
-                    </td>
-                </tr>
+            <td class="tbl-Td-Width">
+                <b> Transaction Id</b>
+            </td>
+            <td class="tbl-Td-Width">
+                <b>  Amount</b>
+            </td>
+            <td class="tbl-Td-Width">
+                <b>  Currency</b>
+            </td>
+            <td class="tbl-Td-Width">
+                <b> Status</b>
+            </td>
+            </tr>
             </thead>
             <tbody id="tblBody">
                 @if (Model.outputModel != null)

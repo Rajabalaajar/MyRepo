@@ -12,8 +12,8 @@ namespace _2c2pAssignment.Models
         [Required(ErrorMessage = "Please select a file.")]
         [DataType(DataType.Upload)]
         [MaxFileSize(5 * 1024 * 1024)]
-        [AllowedExtensions(new string[] { ".csv", ".xml" })]
-        [ValidateData]
+       // [AllowedExtensions(new string[] { ".csv", ".xml" })]
+        //[ValidateData]
         public IFormFile File { get; set; }
     }
 }
