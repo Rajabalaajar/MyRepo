@@ -60,3 +60,10 @@ body {
 .PaddingCustom{
     padding:15px;
 }
+#ContentView{
+    margin:0 auto;
+}
+.tbl-Td-Width {
+    width:275px;
+    text-align:center;
+}

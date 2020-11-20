@@ -6,25 +6,25 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <div class="navbar-nav flex-grow-1">
                         <div class="nav-item PaddingCustom">
-                            <label >Currency Type:</label>
+                            <label>Currency Type:</label>
                             <select asp-for="currencyFilter.Currency" asp-items="Model.currencyFilter.Currencies"></select>
                         </div>
-                       
+
                         <div class="nav-item PaddingCustom">
                             <label>Status :</label>
                             <select asp-for="statusFilter.Status" asp-items="Model.statusFilter.StatusList"></select>
                         </div>
-                       
+
                         <div class="nav-item PaddingCustom">
                             <label>Start Date:</label>
                             <input type="date" asp-for="dateFilter.StartDate" />
                         </div>
-                        
+
                         <div class="nav-item PaddingCustom">
                             <label>End Date:</label>
                             <input type="date" asp-for="dateFilter.EndDate" />
                         </div>
-                       
+
                         <div class="nav-item PaddingCustom">
                             <input type="submit" name="Filter" value="Filter" />
                         </div>
@@ -33,4 +33,47 @@
             </div>
         </nav>
     </form>
+    <div id="ContentView">
+        <table border="1">
+            <thead>
+                <tr>
+                    <td class="tbl-Td-Width">
+                        Transaction Id
+                    </td>
+                    <td class="tbl-Td-Width">
+                        Amount
+                    </td>
+                    <td class="tbl-Td-Width">
+                        Currency
+                    </td>
+                    <td class="tbl-Td-Width">
+                        Status
+                    </td>
+                </tr>
+            </thead>
+            <tbody id="tblBody">
+                @if (Model.outputModel != null)
+                {
+                    foreach (OutputModel mod in Model.outputModel)
+                    {
+                        <tr>
+                            <td class="tbl-Td-Width">
+                                @mod.Id
+                            </td>
+                            <td class="tbl-Td-Width">
+                                @mod.Payment.Split(' ')[0]
+                            </td>
+                            <td class="tbl-Td-Width">
+                                @mod.Payment.Split(' ')[1]
+                            </td>
+                            <td class="tbl-Td-Width">
+                                @mod.Status
+                            </td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
 </div>
