@@ -1,0 +1,9 @@
+F:\Test\2c2p\MyRepo\2c2pDataBase\bin\Debug\2c2pDataBase.dacpac
+F:\Test\2c2p\MyRepo\2c2pDataBase\obj\Debug\Model.xml
+F:\Test\2c2p\MyRepo\2c2pDataBase\obj\Debug\refactor.xml
+F:\Test\2c2p\MyRepo\2c2pDataBase\obj\Debug\postdeploy.sql
+F:\Test\2c2p\MyRepo\2c2pDataBase\obj\Debug\predeploy.sql
+F:\Test\2c2p\MyRepo\2c2pDataBase\obj\Debug\_2c2pDataBase.dll
+F:\Test\2c2p\MyRepo\2c2pDataBase\obj\Debug\_2c2pDataBase.pdb
+F:\Test\2c2p\MyRepo\2c2pDataBase\bin\Debug\_2c2pDataBase.dll
+F:\Test\2c2p\MyRepo\2c2pDataBase\bin\Debug\_2c2pDataBase.pdb
