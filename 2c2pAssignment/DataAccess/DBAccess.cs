@@ -51,9 +51,11 @@ namespace _2c2pAssignment.DataAccess
                     if (model != null)
                     {
                         cmd.Parameters.AddWithValue("@Currency", model.currencyFilter.Currency);
-                        cmd.Parameters.AddWithValue("@Status", model.statusFilter.Status);
-                        cmd.Parameters.AddWithValue("@Start_Date", model.dateFilter.StartDate);
-                        cmd.Parameters.AddWithValue("@End_Date", model.dateFilter.EndDate);
+                        cmd.Parameters.AddWithValue("@Status", model.statusFilter.Status.Trim());
+                        if (!string.IsNullOrEmpty(model.dateFilter.StartDate))
+                            cmd.Parameters.AddWithValue("@Start_Date", model.dateFilter.StartDate);
+                        if (!string.IsNullOrEmpty(model.dateFilter.EndDate))
+                            cmd.Parameters.AddWithValue("@End_Date", model.dateFilter.EndDate);
                     }
 
                     cmd.Parameters.AddWithValue("@Operation", "All");

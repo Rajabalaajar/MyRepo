@@ -56,7 +56,7 @@ namespace _2c2pAssignment.Controllers
             }
             catch (Exception ex)
             {
-
+                AppLogger.Log(ex);
             }
             return View();
         }

@@ -45,7 +45,7 @@ namespace _2c2pAssignment.Logger
         }
         public static void Trace(string ex)
         {
-            File.AppendAllText(LogFile, DateTime.Now.ToString() + ex + "\r\n");
+            File.AppendAllText(TraceFile, "***********" + DateTime.Now.ToString() + "***************\r\n" + ex + "\r\n");
         }
     }
 }
