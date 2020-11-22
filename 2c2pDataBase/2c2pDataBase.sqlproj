@@ -58,14 +58,16 @@
     <Folder Include="Properties" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="TransactionData.sql" />
-    <Build Include="tbl_MetaStatusMapping.sql" />
-    <Build Include="tbl_MetaStatusFileMapping.sql" />
-    <Build Include="tbl_MetaStatus.sql" />
-    <Build Include="tbl_MetaFileTyp_.sql" />
-    <Build Include="USP_GetTransactionData.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="MetaInsertScript.sql" />
+    <Build Include="2c3pTestDatabase.Database.sql" />
+    <Build Include="dbo.DataSetMetaData.Table.sql" />
+    <Build Include="dbo.MasterDataSet.Table.sql" />
+    <Build Include="dbo.MetaValidationData.Table.sql" />
+    <Build Include="dbo.tbl_MetaFileType.Table.sql" />
+    <Build Include="dbo.tbl_MetaStatus.Table.sql" />
+    <Build Include="dbo.tbl_MetaStatusFileMapping.Table.sql" />
+    <Build Include="dbo.tbl_MetaStatusMapping.Table.sql" />
+    <Build Include="dbo.TransactionData.Table.sql" />
+    <Build Include="dbo.USP_GetTransactionData.StoredProcedure.sql" />
+    <Build Include="dbo.USP_LoadMetaData.StoredProcedure.sql" />
   </ItemGroup>
 </Project>
