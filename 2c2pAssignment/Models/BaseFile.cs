@@ -10,7 +10,7 @@ namespace _2c2pAssignment.Models
 {
     public abstract class BaseFile : IFileType, IValidation
     {
-        public IFormFile _Stream;
+        public Stream _Stream;
         public virtual bool SaveData()
         {
             throw new Exception("Invalid File type uploaded");

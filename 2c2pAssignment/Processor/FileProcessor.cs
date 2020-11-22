@@ -11,17 +11,17 @@ namespace _2c2pAssignment.Processor
 {
     public class FileProcessor
     {
-        public Tuple<bool, List<FileDiagnostics>> ProcessFile(FileUpload File)
+        public Tuple<bool, List<FileDiagnostics>> ProcessFile(Stream File, string FileName)
         {
             Tuple<bool, List<FileDiagnostics>> tpl = null;
             try
             {
-                string FType = Path.GetExtension(File.File.FileName);
-                
+                string FType = Path.GetExtension(FileName);
+
                 if (FType == Constants.CSV)
                 {
                     BaseFile baseFile = new CSVFile();
-                    baseFile._Stream = File.File;
+                    baseFile._Stream = File;
                     List<FileDiagnostics> ValidationMessage = baseFile.ValidateData();
                     if (ValidationMessage != null && ValidationMessage.Count > 0)
                     {
@@ -33,7 +33,7 @@ namespace _2c2pAssignment.Processor
                 else if (FType == Constants.XML)
                 {
                     BaseFile baseFile = new XMLFile();
-                    baseFile._Stream = File.File;
+                    baseFile._Stream = File;
                     List<FileDiagnostics> ValidationMessage = baseFile.ValidateData();
                     if (ValidationMessage != null && ValidationMessage.Count > 0)
                     {

@@ -71,42 +71,12 @@ namespace _2c2pAssignment.Models
             string msg = "";
             try
             {
-                #region 
-                //string[] DataLines = Data.Split(Environment.NewLine);
-                //if (DataLines.Count() > 0)
-                //{
-                //    FileModel model = new CSVModel();
-                //    PropertyInfo[] propsinfo = model.GetType().GetProperties();
-                //    foreach (string str in DataLines[0].Split(','))
-                //    {
-                //        bool PrpFound = false;
-                //        foreach (PropertyInfo info in propsinfo)
-                //        {
-                //            if (info.Name.ToLower() == str.TrimEnd().TrimStart().ToLower())
-                //            {
-                //                PrpFound = true;
-                //            }
-                //        }
-                //        if (!PrpFound)
-                //        {
-                //            AppLogger.Trace("'" + str + "'" + " field is not matching with model or invalid field in the CSV file");
-                //            break;
-                //        }
-                //    }
-                //}
-                //foreach (string row in DataLines.Skip(1))
-                //{
-                //    FileModel model = new CSVModel();
-                //    model.TransactionId =
-                //}
-                #endregion
-
-                TextReader reader = new StreamReader(_Stream.OpenReadStream());
+                TextReader reader = new StreamReader(_Stream);
                 CsvConfiguration csvConfiguration = new CsvConfiguration(new System.Globalization.CultureInfo("en-US"));
                 csvConfiguration.IgnoreQuotes = true;
                 csvConfiguration.MissingFieldFound = (a, b, c) =>
                 {
-                    msg = "The header '" + a + "' is missing in the file " + _Stream.FileName + "";
+                    msg = "The header '" + a + "' is missing in the uploaded file";
                 };
                 CsvReader csvReader = new CsvReader(reader, csvConfiguration);
                 var result = csvReader.GetRecords<FileModel>().ToList();

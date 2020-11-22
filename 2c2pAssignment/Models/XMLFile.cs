@@ -40,7 +40,7 @@ namespace _2c2pAssignment.Models
             List<FileModel> lstModel = new List<FileModel>();
             try
             {
-                Stream st = _Stream.OpenReadStream();
+                Stream st = _Stream;
                 string Tdata = new StreamReader(st).ReadToEnd();
                 XmlSerializer serializer = new XmlSerializer(typeof(Transactions));
                 Transactions result = null;

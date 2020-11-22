@@ -19,7 +19,7 @@ namespace _2c2pAssignment.Models
             if (file != null)
             {
                 FileProcessor processor = new FileProcessor();
-                Tuple<bool, List<FileDiagnostics>> result = processor.ProcessFile(new FileUpload() { File = file });
+                Tuple<bool, List<FileDiagnostics>> result = processor.ProcessFile(file.OpenReadStream(), file.FileName);
                 if (result != null)
                 {
                     if (!result.Item1)

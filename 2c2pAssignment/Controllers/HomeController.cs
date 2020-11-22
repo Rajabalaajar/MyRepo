@@ -29,7 +29,7 @@ namespace _2c2pAssignment.Controllers
                     if (File != null && File.File != null)
                     {
                         FileProcessor processor = new FileProcessor();
-                        Tuple<bool, List<FileDiagnostics>> result = processor.ProcessFile(File);
+                        Tuple<bool, List<FileDiagnostics>> result = processor.ProcessFile(File.File.OpenReadStream(), File.File.FileName);
                         if (result != null)
                         {
                             if (result.Item1)
@@ -38,6 +38,10 @@ namespace _2c2pAssignment.Controllers
                             }
                             else
                             {
+                                foreach (FileDiagnostics fd in result.Item2)
+                                {
+                                    AppLogger.Trace(fd.Message + "- Row.No:" + fd.RowNo);
+                                }
                                 return BadRequest(result.Item2);
                             }
                         }
