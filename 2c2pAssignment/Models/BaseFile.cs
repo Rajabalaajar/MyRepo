@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace _2c2pAssignment.Models
 {
-    public abstract class BaseFile : IFileType
+    public abstract class BaseFile : IFileType, IValidation
     {
         public IFormFile _Stream;
         public virtual bool SaveData()
@@ -16,7 +16,7 @@ namespace _2c2pAssignment.Models
             throw new Exception("Invalid File type uploaded");
         }
 
-        public virtual string ValidateData()
+        public virtual List<FileDiagnostics> ValidateData()
         {
             throw new Exception("Invalid File type uploaded");
         }

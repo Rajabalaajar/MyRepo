@@ -31,59 +31,29 @@ namespace _2c2pAssignment.Models
             }
             return true;
         }
-        public override string ValidateData()
+        public override List<FileDiagnostics> ValidateData()
         {
-            string Message = "";
+            List<FileDiagnostics> Message = new List<FileDiagnostics>();
             try
             {
-                var result = ReadData(out Message);
+                string Message1 = "";
+                var result = ReadData(out Message1);
+                DataValidator<FileModel> dataValidator = new DataValidator<FileModel>();
+                Message = dataValidator.ValidateData(result);
                 int RowNumber = 0;
-                string[] formats = { "yyyy-MM-dd hh:mm:ss" };
-                DateTime dt;
-
                 foreach (FileModel t in result)
                 {
                     RowNumber++;
-                   
-                    if (string.IsNullOrEmpty(t.TransactionId))
-                    {
-                        Message = "The property '" + nameof(t.TransactionId) + "' is empty or null in the given input file";
 
-                    }
-                    else if (t.TransactionId.Length > 50)
+                    if (!string.IsNullOrEmpty(t.Status) && t.Status.ToString().ToLower() != Constants.APPROVED && t.Status.ToString().ToLower() != Constants.FAILED && t.Status.ToString().ToLower() != Constants.FINISHED)
                     {
-                        Message = "The property '" + nameof(t.TransactionId) + "' length is exceed(Should be lesser than 51). Row.No: " + RowNumber;
-                    }
-                    else if (!Decimal.TryParse(t.Amount, out decimal Result))
-                    {
-                        Message = "The property '" + nameof(t.Amount) + "' is not in the number format. Row.No: " + RowNumber;
-                    }
-                    else if (string.IsNullOrEmpty(t.CurrencyCode))
-                    {
-                        Message = "The property '" + nameof(t.CurrencyCode) + "' is required. Row.No: " + RowNumber;
-                    }
-                    else if (string.IsNullOrEmpty(t.TransactionDate))
-                    {
-                        Message = "The property '" + nameof(t.TransactionDate) + "' is required. Row.No: " + RowNumber;
-                    }
-                    else if (!string.IsNullOrEmpty(t.TransactionDate) && !DateTime.TryParseExact(t.TransactionDate, formats,
-                System.Globalization.CultureInfo.InvariantCulture,
-                DateTimeStyles.None, out dt))
-                    {
-                        Message = "The property '" + nameof(t.TransactionDate) + "' is invalid format(Should be yyyy-MM-dd hh:mm:ss). Row.No: " + RowNumber;
-                    }
-                    else if (string.IsNullOrEmpty(t.Status))
-                    {
-                        Message = "The property '" + nameof(t.Status) + "' is required. Row.No: " + RowNumber;
-                    }
-                    else if (!string.IsNullOrEmpty(t.Status) && t.Status.ToString().ToLower() != Constants.APPROVED && t.Status.ToString().ToLower() != Constants.FAILED && t.Status.ToString().ToLower() != Constants.FINISHED)
-                    {
-                        Message = "The property '" + nameof(t.Status) + "' is invalid(Should be Approved/Finished/Failed). Row.No: " + RowNumber;
-                    }
-                    if (!string.IsNullOrEmpty(Message))
-                    {
-                        AppLogger.Trace(Message);
-                        break;
+                        Message.Add(new FileDiagnostics()
+                        {
+                            Message = "The property '" + nameof(t.Status) + "' is invalid(Should be Approved/Finished/Failed). Row.No: " + RowNumber,
+                            FieldName = nameof(t.Status),
+                            RowNo = RowNumber,
+                            severity = Severity.Error
+                        });
                     }
 
                 }

@@ -25,6 +25,38 @@ namespace _2c2pAssignment.DataAccess
         {
             return new SqlConnection(ConnectionStr);
         }
+        public static List<MetaValidation> LoadMetaDaata()
+        {
+            List<MetaValidation> mtadata = new List<MetaValidation>();
+            try
+            {
+                using (_Connection = GetSQLConnection())
+                {
+                    if (_Connection.State == System.Data.ConnectionState.Closed)
+                        _Connection.Open();
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.Connection = _Connection;
+                    cmd.CommandText = "USP_LoadMetadata";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        MetaValidation valid = new MetaValidation();
+                        valid.DataSetName = Convert.ToString(reader["DataSetName"]);
+                        valid.Message = Convert.ToString(reader["Message"]);
+                        valid.ValidationType = Convert.ToString(reader["ValidationType"]);
+                        valid.TypeName = Convert.ToString(reader["TypeName"]);
+                        valid.FieldOrder = Convert.ToInt32(reader["FieldOrder"]);
+                        mtadata.Add(valid);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                AppLogger.Log(ex);
+            }
+            return mtadata;
+        }
         public static DataViewModel GetData(DataViewModel model)
         {
             DataViewModel md = new DataViewModel();

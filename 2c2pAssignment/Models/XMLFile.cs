@@ -11,12 +11,14 @@ using _2c2pAssignment.DataAccess;
 using _2c2pAssignment.Extension;
 using System.Data;
 using System.Reflection;
+using _2c2pAssignment.Repository;
+using _2c2pAssignment.Interface;
 
 namespace _2c2pAssignment.Models
 {
     public class XMLFile : BaseFile
     {
-       
+
         public override bool SaveData()
         {
             try
@@ -66,58 +68,32 @@ namespace _2c2pAssignment.Models
             }
             return lstModel;
         }
-        public override string ValidateData()
+        public override List<FileDiagnostics> ValidateData()
         {
-            string Message = "";
+            List<FileDiagnostics> diags = new List<FileDiagnostics>();
             try
             {
                 var result = ReadData();
+                DataValidator<FileModel> dataValidator = new DataValidator<FileModel>();
+                diags = dataValidator.ValidateData(result);
+
                 int RowNumber = 0;
-                string[] formats = { "yyyy-MM-dd HH:mm:ss" };
-                DateTime dt;
 
                 foreach (FileModel t in result)
                 {
                     RowNumber++;
-                    if (string.IsNullOrEmpty(t.TransactionId))
+                    if (!string.IsNullOrEmpty(t.Status) && t.Status.ToString().ToLower() != Constants.APPROVED && t.Status.ToString().ToLower() != Constants.REJECTED && t.Status.ToString().ToLower() != Constants.DONE)
                     {
-                        Message = "The property '" + nameof(t.TransactionId) + "' is empty or null in the given input file";
+                        diags.Add(new FileDiagnostics()
+                        {
+                            Message = "The property '" + nameof(t.Status) + "' is invalid(Should be Approved/Rejected/Done). Element.No: " + RowNumber,
+                            FieldName = nameof(t.Status),
+                            RowNo = RowNumber,
+                            severity = Severity.Error
+                        });
+
                     }
-                    else if (t.TransactionId.Length > 50)
-                    {
-                        Message = "The property '" + nameof(t.TransactionId) + "' length is exceed(Should be lesser than 51). Element.No: " + RowNumber;
-                    }
-                    else if (!Decimal.TryParse(t.Amount, out decimal Result))
-                    {
-                        Message = "The property '" + nameof(t.Amount) + "' is not in the number format. Element.No: " + RowNumber;
-                    }
-                    else if (string.IsNullOrEmpty(t.CurrencyCode))
-                    {
-                        Message = "The property '" + nameof(t.CurrencyCode) + "' is required. Element.No: " + RowNumber;
-                    }
-                    else if (string.IsNullOrEmpty(t.TransactionDate))
-                    {
-                        Message = "The property '" + nameof(t.TransactionDate) + "' is required. Element.No: " + RowNumber;
-                    }
-                    else if (!string.IsNullOrEmpty(t.TransactionDate) && !DateTime.TryParseExact(t.TransactionDate, formats,
-                System.Globalization.CultureInfo.InvariantCulture,
-                DateTimeStyles.None, out dt))
-                    {
-                        Message = "The property '" + nameof(t.TransactionDate) + "' is invalid format(Should be yyyy-MM-dd hh:mm:ss). Element.No: " + RowNumber;
-                    }
-                    else if (string.IsNullOrEmpty(t.Status))
-                    {
-                        Message = "The property '" + nameof(t.Status) + "' is required. Element.No: " + RowNumber;
-                    }
-                    else if (!string.IsNullOrEmpty(t.Status) && t.Status.ToString().ToLower() != Constants.APPROVED && t.Status.ToString().ToLower() != Constants.REJECTED && t.Status.ToString().ToLower() != Constants.DONE)
-                    {
-                        Message = "The property '" + nameof(t.Status) + "' is invalid(Should be Approved/Rejected/Done). Element.No: " + RowNumber;
-                    }
-                    if (!string.IsNullOrEmpty(Message))
-                    {
-                        AppLogger.Trace(Message);
-                        break;
-                    }
+
 
                 }
             }
@@ -126,7 +102,7 @@ namespace _2c2pAssignment.Models
                 AppLogger.Log(ex);
                 throw ex;
             }
-            return Message;
+            return diags;
         }
     }
     [XmlRoot(ElementName = "PaymentDetails")]

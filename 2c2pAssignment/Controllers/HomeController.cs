@@ -9,6 +9,7 @@ using System.IO;
 using _2c2pAssignment.Enum;
 using _2c2pAssignment.Logger;
 using _2c2pAssignment.DataAccess;
+using _2c2pAssignment.Processor;
 
 namespace _2c2pAssignment.Controllers
 {
@@ -27,28 +28,22 @@ namespace _2c2pAssignment.Controllers
                 {
                     if (File != null && File.File != null)
                     {
-                        string FType = Path.GetExtension(File.File.FileName);
-                        if (FType == Constants.CSV)
+                        FileProcessor processor = new FileProcessor();
+                        Tuple<bool, List<FileDiagnostics>> result = processor.ProcessFile(File);
+                        if (result != null)
                         {
-                            BaseFile baseFile = new CSVFile();
-                            baseFile._Stream = File.File;
-                            string ValidationMessage = baseFile.ValidateData();
-                            if (!string.IsNullOrEmpty(ValidationMessage))
-                                return BadRequest(ValidationMessage);
-                            ViewData["Uploaded"] = baseFile.SaveData();
-                        }
-                        else if (FType == Constants.XML)
-                        {
-                            BaseFile baseFile = new XMLFile();
-                            baseFile._Stream = File.File;
-                            string ValidationMessage = baseFile.ValidateData();
-                            if (!string.IsNullOrEmpty(ValidationMessage))
-                                return BadRequest(ValidationMessage);
-                            ViewData["Uploaded"] = baseFile.SaveData();
+                            if (result.Item1)
+                            {
+                                ViewData["Uploaded"] = result.Item1;
+                            }
+                            else
+                            {
+                                return BadRequest(result.Item2);
+                            }
                         }
                         else
                         {
-                            return Json("Unknown file format");
+                            return Error();
                         }
                     }
                 }

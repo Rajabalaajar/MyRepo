@@ -1,8 +1,11 @@
 ﻿using _2c2pAssignment.Enum;
+using _2c2pAssignment.Processor;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
+using System.Linq;
 
 namespace _2c2pAssignment.Models
 {
@@ -15,26 +18,19 @@ namespace _2c2pAssignment.Models
             var file = value as IFormFile;
             if (file != null)
             {
-                string FType = Path.GetExtension(file.FileName);
-                if (FType == Constants.CSV)
+                FileProcessor processor = new FileProcessor();
+                Tuple<bool, List<FileDiagnostics>> result = processor.ProcessFile(new FileUpload() { File = file });
+                if (result != null)
                 {
-                    BaseFile baseFile = new CSVFile();
-                    baseFile._Stream = file;
-                    ValidationMessage = baseFile.ValidateData();
-                    if (!string.IsNullOrEmpty(ValidationMessage))
+                    if (!result.Item1)
                     {
-                        return new ValidationResult(GetErrorMessage());
+                        ValidationMessage = result.Item2.FirstOrDefault().Message;
                     }
+
                 }
-                else if (FType == Constants.XML)
+                else
                 {
-                    BaseFile baseFile = new XMLFile();
-                    baseFile._Stream = file;
-                    ValidationMessage = baseFile.ValidateData();
-                    if (!string.IsNullOrEmpty(ValidationMessage))
-                    {
-                        return new ValidationResult(GetErrorMessage());
-                    }
+                    ValidationMessage = "Unknown Error";
                 }
             }
 

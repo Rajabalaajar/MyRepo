@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace _2c2pAssignment.Interface
 {
-    public interface IFileType
+    public interface IValidation
     {
-        List<FileDiagnostics> ValidateData();
-        bool SaveData();
+
     }
 }
